@@ -38,9 +38,8 @@ if __name__ == "__main__":
                 res = response(tempword)
                 res_dic = res2dict(res)
             except:
-                print("网络错误，可能接口炸了，也可能您网络不好")
+                print("网络错误，可能api炸了，也可能您网络不好")
                 err = 1
-            print(res.read())
             if res_dic['errorCode'] != 0 and err == 0:
                 print("未能查到该单词")
                 err = 1
