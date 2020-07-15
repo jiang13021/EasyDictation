@@ -53,7 +53,7 @@ class Baseword:
     def Deltstage(self):
         currentTime = time.time()
         timeDiff = currentTime - self.lasttime #单位:秒
-        if self.stage < 9: #stage > 9 时视为已经背会
+        if self.stage < 9: #stage >= 9 时视为已经背会
             if (timeDiff > self.forgettingCurve[self.stage]): #如果超过了已知阶段的对应时长，则安排背诵
                 for i in range(9):
                     if self.forgettingCurve[i] >= timeDiff:
@@ -61,8 +61,11 @@ class Baseword:
         return 0
 
     def calImportance(self):
-        alpha, beta = 0.5, 1.0
-        return alpha * self.errors + beta * self.Deltstage()
+        alpha, beta = 0.1, 1.0
+        if self.stage < 9:
+            return alpha * self.errors + beta * self.Deltstage()
+        else:
+            return 0
 
     def TOdict(self): #将Baseword变为dict用于储存
         dic = {}
