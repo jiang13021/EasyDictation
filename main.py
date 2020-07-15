@@ -114,7 +114,7 @@ if __name__ == "__main__":
                     wordlist[i].errors += 1
                 wordlist[i].lasttime = time.time()
                 allword += 1
-            print("听写已完成，准确率"+str(cor/allword))
+            print("听写已完成，准确率%d/%d"%(cor,allword))
                 
         ########################## 2、保存背诵记录并退出 ############################
         elif op == 2:
