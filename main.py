@@ -38,7 +38,7 @@ if __name__ == "__main__":
                 res = response(tempword)
                 res_dic = res2dict(res)
             except:
-                print("网络错误，可能api炸了，也可能您网络不好")
+                print("网络错误，可能接口炸了，也可能您网络不好")
                 err = 1
             if res_dic['errorCode'] != 0 and err == 0:
                 print("未能查到该单词")
@@ -47,7 +47,7 @@ if __name__ == "__main__":
             if err == 1:
                 print("是否使用手动输入？如果手动输入，请输入：y, 否则按任意键继续")
                 char = input()
-                if char[0] == 'y' and len(char) == 1:
+                if char == 'y':
                     print("请输入单词及释义并用空格隔开, 例如：good 好的,良好的")
                     s = input().split()
                     try:
@@ -65,7 +65,15 @@ if __name__ == "__main__":
             #网络查询成功，将其写入wordlist
             else:
                 wordlist.append(Baseword(0, resu= res_dic))
-                print('添加成功')
+                print("您要添加的单词为：" + wordlist[-1].word)
+                print("其释义为：", wordlist[-1].explains)
+                print("确定添加，请输入：y, 否则按任意键取消添加")
+                char = input()
+                if char == 'y':
+                    print('添加成功')
+                else:
+                    wordlist.pop(-1)
+                    print("已取消此次添加")
         ########################## 1、开始听写 ######################################
         elif op == 1:
             print("您的词库中一共%d个单词"%len(wordlist))
