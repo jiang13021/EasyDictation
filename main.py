@@ -5,7 +5,7 @@ import time
 #获取列表文件的信息
 filename = "word_list.txt"
 try:
-    with open('test', 'r', encoding='utf-8') as f0:
+    with open(filename, 'r', encoding='utf-8') as f0:
         wordlist = [Baseword(1, js = i) for i in f0.readlines()]
 except:
     wordlist = []
