@@ -17,7 +17,6 @@ def main():
     resu = response(words)
     if not resu:
         return
-    print(resu.read())
     dic = res2dict(resu)
     print(dic)
 if __name__=='__main__':
