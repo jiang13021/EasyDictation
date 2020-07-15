@@ -88,8 +88,8 @@ if __name__ == "__main__":
             wordlist.sort(reverse=True)
             print("听写开始，输入#退出")
             cor, allword = 0, 0
-            for i in range(1, num+1):
-                print("第%d个单词:"%i)
+            for i in range(0, num):
+                print("第%d个单词:"%(i+1))
                 print(wordlist[i].explains)
                 my_ans = input()
                 if my_ans == wordlist[i].word:
