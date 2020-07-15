@@ -1,0 +1,2 @@
+# EasyDictation
+基于Ebbinghaus遗忘曲线制作的听写程序
