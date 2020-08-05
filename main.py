@@ -66,6 +66,12 @@ if __name__ == "__main__":
             else:
                 wordlist.append(Baseword(0, resu= res_dic))
                 print("您要添加的单词为：" + wordlist[-1].word)
+                try:
+                    for explain in wordlist[-1].explains:
+                        if explain.lower().find( wordlist[-1].word) != -1:
+                            wordlist[-1].explains.pop(wordlist[-1].explains.index(explain))
+                except:
+                    pass
                 print("其释义为：", wordlist[-1].explains)
                 print("确定添加，请输入：y, 否则按任意键取消添加")
                 char = input()
@@ -166,4 +172,3 @@ if __name__ == "__main__":
         elif op == 6:
             PrintHelp()
         print("\n请输入指令继续")
-        
