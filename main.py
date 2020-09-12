@@ -45,55 +45,58 @@ if __name__ == "__main__":
             continue
         ########################## 0、添加词汇到词库中 ##############################
         if op == 0:
-            print("请输入要添加的单词：")
-            tempword = input()
-            err = 0
-            try:
-                res = response(tempword)
-                res_dic = res2dict(res)
-            except:
-                print("网络错误，可能接口炸了，也可能您网络不好")
-                err = 1
-            if res_dic['errorCode'] != 0 and err == 0:
-                print("未能查到该单词")
-                err = 1
-            #网络查询失败 判断是否需要手动输入
-            if err == 1:
-                print("是否使用手动输入？如果手动输入，请输入：y, 否则按任意键继续")
-                char = input()
-                if char == 'y':
-                    print("请输入单词及释义并用空格隔开, 例如：good 好的,良好的")
-                    s = input().split()
-                    try:
-                        print("您要输入的单词为：" + s[0]+ '\n' + "其释义为："+str(s[1:]))
-                        print("确定将该单词加入词库 请输入：y, 否则按任意键继续")
-                        char = input()
-                        if char == 'y':
-                            wordlist.append(Baseword(2, word = s[0], explains = s[1:]))
-                            print("添加成功")
-                        else:
-                            print("您拒绝了手动输入")
-                    except:
-                        print("无法识别输入")
-                        pass
-            #网络查询成功，将其写入wordlist
-            else:
-                wordlist.append(Baseword(0, resu= res_dic))
-                print("您要添加的单词为：" + wordlist[-1].word)
+            while(1):
+                print("请输入要添加的单词（输入#退出）：")
+                tempword = input()
+                if(tempword == "#"):
+                    break
+                err = 0
                 try:
-                    for explain in wordlist[-1].explains:
-                        if explain.lower().find( wordlist[-1].word) != -1:
-                            wordlist[-1].explains.pop(wordlist[-1].explains.index(explain))
+                    res = response(tempword)
+                    res_dic = res2dict(res)
                 except:
-                    pass
-                print("其释义为：", wordlist[-1].explains)
-                print("确定添加，请输入：y, 否则按任意键取消添加")
-                char = input()
-                if char == 'y':
-                    print('添加成功')
+                    print("网络错误，可能接口炸了，也可能您网络不好")
+                    err = 1
+                if res_dic['errorCode'] != 0 and err == 0:
+                    print("未能查到该单词")
+                    err = 1
+                #网络查询失败 判断是否需要手动输入
+                if err == 1:
+                    print("是否使用手动输入？如果手动输入，请输入：y, 否则按任意键继续")
+                    char = input()
+                    if char == 'y':
+                        print("请输入单词及释义并用空格隔开, 例如：good 好的,良好的")
+                        s = input().split()
+                        try:
+                            print("您要输入的单词为：" + s[0]+ '\n' + "其释义为："+str(s[1:]))
+                            print("确定将该单词加入词库 请输入：y, 否则按任意键继续")
+                            char = input()
+                            if char == 'y':
+                                wordlist.append(Baseword(2, word = s[0], explains = s[1:]))
+                                print("添加成功")
+                            else:
+                                print("您拒绝了手动输入")
+                        except:
+                            print("无法识别输入")
+                            pass
+                #网络查询成功，将其写入wordlist
                 else:
-                    wordlist.pop(-1)
-                    print("已取消此次添加")
+                    wordlist.append(Baseword(0, resu= res_dic))
+                    print("您要添加的单词为：" + wordlist[-1].word)
+                    try:
+                        for explain in wordlist[-1].explains:
+                            if explain.lower().find( wordlist[-1].word) != -1:
+                                wordlist[-1].explains.pop(wordlist[-1].explains.index(explain))
+                    except:
+                        pass
+                    print("其释义为：", wordlist[-1].explains)
+                    print("确定添加，请输入：y, 否则按任意键取消添加")
+                    char = input()
+                    if char == 'y':
+                        print('添加成功')
+                    else:
+                        wordlist.pop(-1)
+                        print("已取消此次添加")
         ########################## 1、开始听写 ######################################
         elif op == 1:
             print("您的词库中一共%d个单词"%len(wordlist))
@@ -189,55 +192,58 @@ if __name__ == "__main__":
             PrintHelp()
         ########################## 7、添加单词到今日词汇中 ##########################
         elif op == 7:
-            print("请输入要添加的单词：")
-            tempword = input()
-            err = 0
-            try:
-                res = response(tempword)
-                res_dic = res2dict(res)
-            except:
-                print("网络错误，可能接口炸了，也可能您网络不好")
-                err = 1
-            if res_dic['errorCode'] != 0 and err == 0:
-                print("未能查到该单词")
-                err = 1
-            #网络查询失败 判断是否需要手动输入
-            if err == 1:
-                print("是否使用手动输入？如果手动输入，请输入：y, 否则按任意键继续")
-                char = input()
-                if char == 'y':
-                    print("请输入单词及释义并用空格隔开, 例如：good 好的,良好的")
-                    s = input().split()
-                    try:
-                        print("您要输入的单词为：" + s[0]+ '\n' + "其释义为："+str(s[1:]))
-                        print("确定将该单词加入词库 请输入：y, 否则按任意键继续")
-                        char = input()
-                        if char == 'y':
-                            todaylist.append(Baseword(2, word = s[0], explains = s[1:]))
-                            print("添加成功")
-                        else:
-                            print("您拒绝了手动输入")
-                    except:
-                        print("无法识别输入")
-                        pass
-            #网络查询成功，将其写入todaylist
-            else:
-                todaylist.append(Baseword(0, resu= res_dic))
-                print("您要添加的单词为：" + todaylist[-1].word)
+            while(1):
+                print("请输入要添加的单词（输入#退出）：")
+                tempword = input()
+                if(tempword == "#"):
+                    break
+                err = 0
                 try:
-                    for explain in todaylist[-1].explains:
-                        if explain.lower().find( todaylist[-1].word) != -1:
-                            todaylist[-1].explains.pop(todaylist[-1].explains.index(explain))
+                    res = response(tempword)
+                    res_dic = res2dict(res)
                 except:
-                    pass
-                print("其释义为：", todaylist[-1].explains)
-                print("确定添加，请输入：y, 否则按任意键取消添加")
-                char = input()
-                if char == 'y':
-                    print('添加成功')
+                    print("网络错误，可能接口炸了，也可能您网络不好")
+                    err = 1
+                if res_dic['errorCode'] != 0 and err == 0:
+                    print("未能查到该单词")
+                    err = 1
+                #网络查询失败 判断是否需要手动输入
+                if err == 1:
+                    print("是否使用手动输入？如果手动输入，请输入：y, 否则按任意键继续")
+                    char = input()
+                    if char == 'y':
+                        print("请输入单词及释义并用空格隔开, 例如：good 好的,良好的")
+                        s = input().split()
+                        try:
+                            print("您要输入的单词为：" + s[0]+ '\n' + "其释义为："+str(s[1:]))
+                            print("确定将该单词加入词库 请输入：y, 否则按任意键继续")
+                            char = input()
+                            if char == 'y':
+                                todaylist.append(Baseword(2, word = s[0], explains = s[1:]))
+                                print("添加成功")
+                            else:
+                                print("您拒绝了手动输入")
+                        except:
+                            print("无法识别输入")
+                            pass
+                #网络查询成功，将其写入todaylist
                 else:
-                    todaylist.pop(-1)
-                    print("已取消此次添加")
+                    todaylist.append(Baseword(0, resu= res_dic))
+                    print("您要添加的单词为：" + todaylist[-1].word)
+                    try:
+                        for explain in todaylist[-1].explains:
+                            if explain.lower().find( todaylist[-1].word) != -1:
+                                todaylist[-1].explains.pop(todaylist[-1].explains.index(explain))
+                    except:
+                        pass
+                    print("其释义为：", todaylist[-1].explains)
+                    print("确定添加，请输入：y, 否则按任意键取消添加")
+                    char = input()
+                    if char == 'y':
+                        print('添加成功')
+                    else:
+                        todaylist.pop(-1)
+                        print("已取消此次添加")
         ########################## 8、循环背诵今日词汇中的单词 ######################
         else:
             print("您的今日词汇中一共%d个单词"%len(todaylist))
