@@ -17,10 +17,14 @@ try:
 except:
     todaylist = []
 
+delt = []
 for w in todaylist:
-    if time.time() - w.getLasttime() >= 24 * 60 * 60:
+    nowtime = time.time()
+    if nowtime - w.getLasttime() >= 24 * 60 * 60:
         wordlist.append(w)
-        todaylist.pop(todaylist.index(w))
+        delt.append(w)
+for w in delt:
+    todaylist.pop(todaylist.index(w))
         
 def PrintHelp():
     print("使用说明：")
