@@ -37,13 +37,14 @@ def PrintHelp():
     print("查看使用说明，请输入：6")
     print("添加今日词汇（今日词汇将在24小时后默认添加到词库中），请输入：7")
     print("循环背诵今日词汇，请输入：8")
+    print("列出今天要背的单词，请输入：9")
     print("当出现\"请输入指令继续\"时，代表一次操作完成，可以继续操作")
 if __name__ == "__main__":
     PrintHelp()
     while True:
         try:
             op = int(input())
-            assert op >= 0 and op < 9
+            assert op >= 0 and op < 10
         except:
             print("指令无法识别")
             continue
@@ -249,7 +250,7 @@ if __name__ == "__main__":
                         todaylist.pop(-1)
                         print("已取消此次添加")
         ########################## 8、循环背诵今日词汇中的单词 ######################
-        else:
+        elif op == 8:
             print("您的今日词汇中一共%d个单词"%len(todaylist))
             if(len(todaylist) == 0):
                 print("您的词库空空如也，已退出")
@@ -283,4 +284,11 @@ if __name__ == "__main__":
                             break
                         print("错误！")
                         print("正确的单词为: "+todaylist[i].word)
+        ########################## 9、列出词库中的所有单词 ##########################
+        elif op == 9:
+            if len(todaylist) > 0:
+                for elem in todaylist:
+                    print(elem.word, elem.explains)
+            else:
+                print("您的词库空空如也")
         print("\n请输入指令继续")
