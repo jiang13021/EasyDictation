@@ -38,13 +38,14 @@ def PrintHelp():
     print("添加今日词汇（今日词汇将在24小时后默认添加到词库中），请输入：7")
     print("循环背诵今日词汇，请输入：8")
     print("列出今天要背的单词，请输入：9")
+    print("看单词识意思模式，请输入：10")
     print("当出现\"请输入指令继续\"时，代表一次操作完成，可以继续操作")
 if __name__ == "__main__":
     PrintHelp()
     while True:
         try:
             op = int(input())
-            assert op >= 0 and op < 10
+            assert op >= 0 and op <= 10
         except:
             print("指令无法识别")
             continue
@@ -286,9 +287,46 @@ if __name__ == "__main__":
                         print("正确的单词为: "+todaylist[i].word)
         ########################## 9、列出词库中的所有单词 ##########################
         elif op == 9:
+            cnt = 0
             if len(todaylist) > 0:
                 for elem in todaylist:
-                    print(elem.word, elem.explains)
+                    print(str(todaylist.index(elem)+1)+'.'+ elem.word, '['+elem.phonetic+']' ,elem.explains)
+                    cnt += 1
+                    if(cnt == 5):
+                        print()
+                        cnt = 0
             else:
                 print("您的词库空空如也")
+        ########################## 10、看单词识别意思 ###################################
+        elif op == 10:
+            print("您的今日词汇中一共%d个单词"%len(todaylist))
+            if(len(todaylist) == 0):
+                print("您的词库空空如也，已退出")
+                break
+            print("听写开始，输入#退出")
+            p = list(range(0, len(todaylist)))
+            while(1):
+                try:
+                    i = random.choice(p)
+                except:
+                    print("今日单词全部听写完毕")
+                    break
+                print("+++++++++++++++%d/%d+++++++++++++++++++++++"%(len(todaylist) - len(p), len(todaylist)))
+                print(todaylist[i].word)
+                print("按任意键获得意思，输入#退出")
+                my_ans = input()
+                if my_ans == '#':
+                    print("已退出听写")
+                    break
+                print("该单词的意思是：")
+                print(todaylist[i].explains)
+                print("回答正确请输入y")
+                my_ans = input()
+                if my_ans == 'y':
+                    print("good!")
+                    p.pop(p.index(i))
+                else:
+                    if my_ans == '#':
+                        print("已退出听写")
+                        break
         print("\n请输入指令继续")
